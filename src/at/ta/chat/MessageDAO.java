@@ -6,6 +6,7 @@ import java.util.List;
 
 public class MessageDAO {
     List<UserVO> userVOList = new ArrayList<>();
+    TaskGUI taskGUI;
 
     public List<UserVO> getAllUser() {
 
@@ -76,7 +77,7 @@ public class MessageDAO {
                 String created_at = rs.getDate("created_at").toString();
                 String chat_text = rs.getString("chat_text");
                 int fkName = rs.getInt("fk_user");
-                System.out.println(id + " " + created_at + " " + chat_text + " " + fkName);
+                System.out.println(fkName + " " + created_at + " " + chat_text);
             }
             connection.close();
         } catch (SQLException ex) {
@@ -86,9 +87,9 @@ public class MessageDAO {
         return MessageVOS;
     }
 
-    public void insertMessage(String chatText, UserVO userVO) {
+    public void insertMessage(String message, UserVO userVO) {
 
-        String sql = "INSERT INTO `chattable`( `chat_text`, `fk_user`) VALUES ('" + chatText + "'," + userVO.getId() + ")";
+        String sql = "INSERT INTO `chattable`( `chat_text`, `fk_user`) VALUES ('" + message + "'," + userVO.getId() + ")";
 
         try {
             Connection connection = null;
@@ -96,7 +97,6 @@ public class MessageDAO {
             //Verbindung zur Datenbank
             connection = DriverManager.getConnection(url);
             System.out.println("Connectet to DB!");
-
 
             Statement statement = connection.createStatement();
             statement.execute(sql);
